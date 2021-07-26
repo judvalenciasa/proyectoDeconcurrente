@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package logica;
 
 import java.io.BufferedReader;
@@ -18,10 +13,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
-/**
- *
- * @author Cristian G.
- */
+
 public class SocketController implements Runnable {
 
     public String code;
@@ -108,7 +100,7 @@ public class SocketController implements Runnable {
 
     public void enviarPublico(String text) {
         theout.println("sendall " + text);
-        //captarmio = text;
+        captarmio = text;
 
     }
 
@@ -117,7 +109,11 @@ public class SocketController implements Runnable {
         theout.println("send " + listSeleccionarUsuario.getSelectedItem() + " " + text);
         ///
         
-        //captarmio = text;
+        captarmio = text;
+    }
+    
+    public String cantUsuarios ( ){
+        return this.listSeleccionarUsuario.getItemCount() + "";
     }
     
 
@@ -152,7 +148,7 @@ public class SocketController implements Runnable {
                 } //ESTO ES PARA CUANDO SE ENVÍA UN MENSAJE PRIVADO  --------------SEND USERNAME MESSAGE
                 else if (code.equals("4000")) {
                     JOptionPane.showMessageDialog(null, "Mensaje Enviado privado");
-                    txtOutputPrivado.append(message + "\n");
+                    txtOutputPrivado.append(listSeleccionarUsuario.getSelectedItem() + "  dice:  " + captarmio +  "\n");
                 } else if (code.equals("4001")) {
                     JOptionPane.showMessageDialog(null, "Su mensaje no ha sido enviado");
                 } //ESTO ES PARA CUANDO SE ENVÍA UN MENSAJE PARA TODOS  --------------SENDALL USERNAME MESSAGE
