@@ -42,6 +42,9 @@ public class SocketController implements Runnable {
 
     public LinkedList<String> usuarios;
     public String[] list;
+    
+    String[] usu = null;
+    int canUsuarios = 0;
 
     public SocketController(String newHostname, int newPort, JTextArea txtOutputPublico, JTextArea txtOutputPrivado,
             JTextArea txtOutputUsuarios, JComboBox SeleccionarUsuario, JTextField MensajesEnviados) throws IOException {
@@ -93,15 +96,15 @@ public class SocketController implements Runnable {
         return text;
     }
 
-    public void Registrarse(String username) {
+    public String Registrarse(String username) {
         usuarionorepet = username;
         username = "register " + username;
-
+        
         //this.usuarios.add(username);
         theout.println(username);
-
         //theout.println es con el que uno manda el mensaje al servidor
         //theIn.println es el mensaje que el servidor envía
+        return usuarionorepet;
     }
 
     public void enviarPublico(String text) {
@@ -115,12 +118,31 @@ public class SocketController implements Runnable {
         theout.println("send " + listSeleccionarUsuario.getSelectedItem() + " " + text);
         captarmio = text;
     }
-    public void obtenerCantidadUsuarios(){
-        theout.println("getusernames "); 
-        System.out.println(usu.length);
-    }
+       
+    public void listarUsuarios (String message){
+        usu = message.split(";");
+        this.listSeleccionarUsuario.removeAllItems();
+        this.txtOutputUsuarios.setText("");
+
+        for (String usuario : usu) {
+
+            //this.txtOutputUsuarios.append(usuario+"\n");
+            if ((!usuarionorepet.equals(usuario)) && (!usuario.equals(usu))) {
+                listSeleccionarUsuario.addItem(usuario);
+
+                this.txtOutputUsuarios.append(usuario + "\n");
+            }
+        }
+        
+        canUsuarios = usu.length;
+        System.out.println(canUsuarios);
+}
     
-    String[] usu = null;
+    public String obtenerCantidadUsuarios(){
+        System.out.println("obetenerrrrr " + canUsuarios);
+        return canUsuarios + " "; 
+    }   
+    
 
     @Override
     public void run() {
@@ -165,7 +187,6 @@ public class SocketController implements Runnable {
                 } //ESTO ES PARA CUANDO SE ENVÍA UN MENSAJE PARA TODOS  --------------SENDALL USERNAME MESSAGE
                 else if (code.equals("2000")) {
                     JOptionPane.showMessageDialog(null, "Mensaje enviado a todos");
-                    
                     txtOutputPublico.append(message + "\n");
 
                 } else if (code.equals("2001")) {
@@ -186,23 +207,7 @@ public class SocketController implements Runnable {
 
                 } //LISTA USUARIOS
                 else if (code.equals("5000")) {
-
-                    usu = message.split(";");
-                    this.listSeleccionarUsuario.removeAllItems();
-                    this.txtOutputUsuarios.setText("");
-
-                    for (String usuario : usu) {
-
-                        //this.txtOutputUsuarios.append(usuario+"\n");
-                        if ((!usuarionorepet.equals(usuario)) && (!usuario.equals(usu))) {
-                            listSeleccionarUsuario.addItem(usuario);
-
-                            this.txtOutputUsuarios.append(usuario + "\n");
-
-                        }
-
-                    }
-
+                    listarUsuarios(message);              
                 }
                 else if(code.equals("10000")){
                     quit = true;
