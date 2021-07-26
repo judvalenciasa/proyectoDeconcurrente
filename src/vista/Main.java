@@ -262,8 +262,6 @@ public class Main extends javax.swing.JFrame {
             }
         });
 
-        jLabel9.setText("0");
-
         jLabel12.setText("MI NOMBRE DE USUARIO: ");
 
         jButton2.setText("CANTIDAD USURIOS");
@@ -476,7 +474,6 @@ public class Main extends javax.swing.JFrame {
         jLabel11.setText(conectar.Registrarse(jTextField4.getText())); //jTextField4  -->nombre usuario);
         jTextArea1.setText(jTextArea1.getText() + "\n"); //jTextArea1 -->cuadro mensajes públicos
         this.jTextField4.setEnabled(false);
-        
         
 
     }//GEN-LAST:event_jButton3ActionPerformed

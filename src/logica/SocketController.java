@@ -119,27 +119,7 @@ public class SocketController implements Runnable {
         captarmio = text;
     }
        
-    public void listarUsuarios (String message){
-        usu = message.split(";");
-        this.listSeleccionarUsuario.removeAllItems();
-        this.txtOutputUsuarios.setText("");
-
-        for (String usuario : usu) {
-
-            //this.txtOutputUsuarios.append(usuario+"\n");
-            if ((!usuarionorepet.equals(usuario)) && (!usuario.equals(usu))) {
-                listSeleccionarUsuario.addItem(usuario);
-
-                this.txtOutputUsuarios.append(usuario + "\n");
-            }
-        }
-        
-        canUsuarios = usu.length;
-        System.out.println(canUsuarios);
-}
-    
     public String obtenerCantidadUsuarios(){
-        System.out.println("obetenerrrrr " + canUsuarios);
         return canUsuarios + " "; 
     }   
     
@@ -181,13 +161,13 @@ public class SocketController implements Runnable {
                 } //ESTO ES PARA CUANDO SE ENVÍA UN MENSAJE PRIVADO  --------------SEND USERNAME MESSAGE
                 else if (code.equals("4000")) {
                     JOptionPane.showMessageDialog(null, "Mensaje Enviado privado");
-                    txtOutputPrivado.append(message + "\n");
+                    txtOutputPrivado.append(usuarionorepet + " dice:  " + captarmio+ "\n");
                 } else if (code.equals("4001")) {
                     JOptionPane.showMessageDialog(null, "Su mensaje no ha sido enviado");
                 } //ESTO ES PARA CUANDO SE ENVÍA UN MENSAJE PARA TODOS  --------------SENDALL USERNAME MESSAGE
                 else if (code.equals("2000")) {
                     JOptionPane.showMessageDialog(null, "Mensaje enviado a todos");
-                    txtOutputPublico.append(message + "\n");
+                    txtOutputPublico.append(usuarionorepet + " dice:  " + captarmio+ "\n");
 
                 } else if (code.equals("2001")) {
                     JOptionPane.showMessageDialog(null, "Su mensaje para todos los usuarios. no ha sido enviado");
@@ -196,19 +176,38 @@ public class SocketController implements Runnable {
                 //IDENTIFICA UN MSJ PRIVADO                                     //(SOURCE) (PRIVATE)
                 else if (code.equals("4010")) {
 
-                    txtOutputPrivado.append("\n");
+                    txtOutputPrivado.append(message + "\n");
                     //listSeleccionarUsuario.getSelectedItem();
 
                 } //USERNAME MESSAGE
                 //IDENTIFICA UN MSJ PUBLICO                                     //(SOURCE) (PUBLIC)
                 else if (code.equals("2010")) {
 
-                    txtOutputPublico.append( "\n");
+                    txtOutputPublico.append(message + "\n");
 
                 } //LISTA USUARIOS
                 else if (code.equals("5000")) {
-                    listarUsuarios(message);              
+                   // listarUsuarios(message); 
+                   
+                   usu = message.split(";");
+                    this.listSeleccionarUsuario.removeAllItems();
+                    this.txtOutputUsuarios.setText("");
+
+                    for (String usuario : usu) {
+
+                        //this.txtOutputUsuarios.append(usuario+"\n");
+                        if ((!usuarionorepet.equals(usuario)) && (!usuario.equals(usu))) {
+                            listSeleccionarUsuario.addItem(usuario);
+
+                            this.txtOutputUsuarios.append(usuario + "\n");
+                        }
+                        
+                    }
+                    
+                canUsuarios = usu.length;  
+                  
                 }
+               
                 else if(code.equals("10000")){
                     quit = true;
                 }
