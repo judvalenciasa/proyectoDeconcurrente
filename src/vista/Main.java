@@ -19,7 +19,7 @@ import logica.SocketController;
  */
 public class Main extends javax.swing.JFrame {
 
-    SocketController conectar;
+    public SocketController conectar;
      int contadorUsarios = 0;
      String myusername = "";
 
@@ -517,7 +517,9 @@ public class Main extends javax.swing.JFrame {
         for (int i = 0; i < conectar.usuarios.size(); i++) {
             System.out.println(conectar.usuarios.get(i));
         }
-        UsuariosN.setText("El numero de usuarios es "+ contadorUsarios);
+        
+        this.conectar.obtenerCantidadUsuarios();
+        
         
     }//GEN-LAST:event_NusuariosBActionPerformed
 

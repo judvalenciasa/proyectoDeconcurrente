@@ -20,7 +20,8 @@ import javax.swing.JTextField;
 
 /**
  *
- * @author Cristian G.
+ * @author Juan David Valencia
+ *         Carol tatian Giraldo 
  */
 public class SocketController implements Runnable {
 
@@ -74,6 +75,7 @@ public class SocketController implements Runnable {
 
     public void writeText(String text) {
         theout.println(text);
+        System.out.println(text);
     }
 
     public String readText() {
@@ -94,10 +96,6 @@ public class SocketController implements Runnable {
     public void Registrarse(String username) {
         usuarionorepet = username;
         username = "register " + username;
-        
-        //aqui vamos
-        
-
 
         //this.usuarios.add(username);
         theout.println(username);
@@ -108,18 +106,21 @@ public class SocketController implements Runnable {
 
     public void enviarPublico(String text) {
         theout.println("sendall " + text);
-        //captarmio = text;
+        captarmio = text;
 
     }
 
     public void enviarPrivado(String text) {
         //System.out.println(listSeleccionarUsuario.getSelectedItem());
         theout.println("send " + listSeleccionarUsuario.getSelectedItem() + " " + text);
-        ///
-        
-        //captarmio = text;
+        captarmio = text;
+    }
+    public void obtenerCantidadUsuarios(){
+        theout.println("getusernames "); 
+        System.out.println(usu.length);
     }
     
+    String[] usu = null;
 
     @Override
     public void run() {
@@ -139,6 +140,12 @@ public class SocketController implements Runnable {
 
                 // txtOutputPublico.append(command + "\n");
                 //ESTO ES PARA CUANDO SE REGISTRE UN USUARIO  -------------------REGISTER USERNAME
+                if (code.equals("6000")) {
+                    JOptionPane.showMessageDialog(null, "hola mundo");
+                } else
+                
+                
+                
                 if (code.equals("1000")) {
                     JOptionPane.showMessageDialog(null, "Su usuario ha sido registrado correctamente");
                 } else if (code.equals("0000")) {
@@ -180,7 +187,7 @@ public class SocketController implements Runnable {
                 } //LISTA USUARIOS
                 else if (code.equals("5000")) {
 
-                    String[] usu = message.split(";");
+                    usu = message.split(";");
                     this.listSeleccionarUsuario.removeAllItems();
                     this.txtOutputUsuarios.setText("");
 
